@@ -3,7 +3,7 @@
  *	by wind
  *	<loutre@courrier.dev>
  *	22/07/21 17:03:43
- *	22/07/21 22:04:48
+ *	25/07/21 05:04:11
  */
 
 #ifndef MICROBLABLA_H
@@ -23,5 +23,9 @@
 # ifndef BONUS
 #  define BONUS 0
 # endif
+
+
+int	ft_atoi_pid(char *str);
+int	ft_strlen(char *str);
 
 #endif

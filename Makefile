@@ -1,40 +1,47 @@
 #
 #	Makefile
-#	by wind
+#	by fire
 #	<loutre@courrier.dev>
-#	22/07/21 16:30:53
-#	22/07/21 22:05:40
+#	25/07/21 04:41:40
+#	25/07/21 05:04:02
 #
 
-MAKEFLAGS	+=	--silent
+NAME1		= server
+NAME2		= client
+C_FILES1	= server.c \
+			  utils.c
+C_FILES2	= client.c \
+			  utils.c
+SRCS1		= $(addprefix srcs/,$(C_FILES1))
+SRCS2		= $(addprefix srcs/,$(C_FILES2))
+OBJS1		= $(SRCS1:.c=.o)
+OBJS2		= $(SRCS2:.c=.o)
+DEPS		= $(OBJS1:.o=.d) $(OBJS2:.o=.d)
+CC			= clang
+CFLAGS		= -Wall -Wextra -Werror -MMD
+IFLAGS		= -I ./includes
 
-NAME		=	minitalk
-SNAME		=	server
-CNAME		=	client
-SNAME_DIR	=	server_srcs
-CNAME_DIR	=	client_srcs
+.c.o:
+			$(CC) $(CFLAGS) $(IFLAGS) -c $< -o $(<:.c=.o)
 
-all : $(NAME)
+all:        $(NAME1) $(NAME2)
 
-$(NAME) :
-	$(MAKE) -C $(SNAME_DIR) $(SNAME)
-	$(MAKE) -C $(CNAME_DIR) $(CNAME)
-	cp $(SNAME_DIR)/$(SNAME) .
-	cp $(CNAME_DIR)/$(CNAME) .
+-include	$(DEPS)
 
-bonus:
-	$(MAKE) -C $(SNAME_DIR) bonus
-	$(MAKE) -C $(CNAME_DIR) $(CNAME)
-	cp $(SNAME_DIR)/$(SNAME) .
-	cp $(CNAME_DIR)/$(CNAME) .
+$(NAME1):   $(OBJS1)
+			$(CC) $(OBJS1) $(CFLAGS) -o $(NAME1)
 
-clean	:
-	$(MAKE) -C $(SNAME_DIR) clean
-	$(MAKE) -C $(CNAME_DIR) clean
+$(NAME2):   $(OBJS2)
+			$(CC) $(OBJS2) $(CFLAGS) -o $(NAME2)
 
-fclean	:
-	$(MAKE) -C $(SNAME_DIR) fclean
-	$(MAKE) -C $(CNAME_DIR) fclean
-	rm -rf $(SNAME) $(CNAME)
+bonus:      $(NAME1) $(NAME2)
 
-re	: fclean all
+clean:
+			rm -f $(OBJS1) $(OBJS2) $(DEPS)
+
+fclean:		clean
+			rm -f $(NAME1) $(NAME2)
+
+re:			fclean all
+
+.PHONY:     all bonus clean fclean re
