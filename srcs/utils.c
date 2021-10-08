@@ -8,29 +8,28 @@
 
 #include "microblabla.h"
 
-int ft_strlen(char *str)
+int	ft_strlen(char *str)
 {
-    int i;
+	int	i;
 
-    i = -1;
-    while (str && (++i)[str])
-        ;
-    return (i);
+	i = -1;
+	while (str && (++i)[str])
+		;
+	return (i);
 }
 
-int ft_atoi_pid(char *str)
+int	ft_atoi_pid(char *str)
 {
-    int nb;
+	int	nb;
 
-    nb = 0;
-    while (*str == ' ' && str)
-        str++;
-    while (str && (*str >= '0' && *str <= '9'))
-    {
-        nb *= 10;
-        nb += *str - '0';
-        str++;
-    }
-    return (nb);
+	nb = 0;
+	while (*str == ' ' && str)
+		str++;
+	while (str && (*str >= '0' && *str <= '9'))
+	{
+		nb *= 10;
+		nb += *str - '0';
+		str++;
+	}
+	return (nb);
 }
-

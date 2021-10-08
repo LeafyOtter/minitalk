@@ -8,22 +8,23 @@
 
 #include "microblabla.h"
 
-static void	signal_handler(int	sig, siginfo_t *siginfo, void *context)
+static void	signal_handler(int sig, siginfo_t *siginfo, void *context)
 {
 	static int				received = 0;
 	static unsigned char	character = 0;
 
-	(void)siginfo;
 	(void)context;
 	received++;
+	usleep(10);
+	kill(siginfo->si_pid, SIGUSR1);
 	character <<= 1;
 	if (sig == SIGUSR2)
 		character += 1;
 	if (received == 8)
 	{
+		if (!character)
+			kill(siginfo->si_pid, SIGUSR2);
 		write(1, &character, 1);
-		if (!character && BONUS)
-			write(1, ACKNOWLEDGEMENT, ft_strlen(ACKNOWLEDGEMENT));
 		received = 0;
 		character = 0;
 	}
@@ -69,9 +70,5 @@ int	main(void)
 	if (sigaction(SIGUSR2, &act, NULL) < 0)
 		return (1);
 	while (1)
-	{
-	//	pause();
-		sleep(25);
-	}
-	return (0);
+		pause();
 }
