@@ -8,26 +8,37 @@
 
 #include "microblabla.h"
 
+static void	printf_buffer(char *buffer, int	*index)
+{
+	write(1, buffer, *index);
+	ft_memset(&buffer[0], '\0', BUFFER_SIZE);
+	(*index) = 0;
+}
+
 static void	signal_handler(int sig, siginfo_t *siginfo, void *context)
 {
+	static int				index = 0;
 	static int				received = 0;
 	static unsigned char	character = 0;
+	static unsigned char	buffer[BUFFER_SIZE];
 
 	(void)context;
 	received++;
-	usleep(10);
-	kill(siginfo->si_pid, SIGUSR1);
 	character <<= 1;
 	if (sig == SIGUSR2)
 		character += 1;
 	if (received == 8)
 	{
+		if (!character || index == (BUFFER_SIZE - 1))
+			printf_buffer(buffer, &index);
 		if (!character)
 			kill(siginfo->si_pid, SIGUSR2);
-		write(1, &character, 1);
+		buffer[index] = character;
+		index++;
 		received = 0;
 		character = 0;
 	}
+	kill(siginfo->si_pid, SIGUSR1);
 }
 
 static char	*print_pid(int pid, char *str)
@@ -70,5 +81,6 @@ int	main(void)
 	if (sigaction(SIGUSR2, &act, NULL) < 0)
 		return (1);
 	while (1)
-		pause();
+		usleep(1);
+	return (0);
 }

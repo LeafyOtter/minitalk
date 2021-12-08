@@ -33,3 +33,29 @@ int	ft_atoi_pid(char *str)
 	}
 	return (nb);
 }
+
+void	*ft_calloc(size_t nmemb, size_t size)
+{
+	size_t			n;
+	void			*ptr;
+	unsigned char	*tmp;
+
+	ptr = malloc(nmemb * size);
+	if (!ptr)
+		return (NULL);
+	n = nmemb * size;
+	tmp = (unsigned char *)ptr;
+	while (n--)
+		*tmp++ = '\0';
+	return (ptr);
+}
+
+void	*ft_memset(void *s, int c, size_t n)
+{
+	unsigned char	*ptr;
+
+	ptr = (unsigned char *)s;
+	while (n--)
+		*ptr++ = c;
+	return (s);
+}

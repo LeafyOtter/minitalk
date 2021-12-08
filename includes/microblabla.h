@@ -21,7 +21,11 @@
 # define LST_SIG "Signal was lost, restart server\n"
 # define ACKNOWLEDGEMENT "\e[32mMessage sent and received !\n\e[0m"
 
-int	ft_atoi_pid(char *str);
-int	ft_strlen(char *str);
+# define BUFFER_SIZE 2048
+
+int		ft_atoi_pid(char *str);
+int		ft_strlen(char *str);
+void	*ft_calloc(size_t nmemb, size_t size);
+void	*ft_memset(void *s, int c, size_t n);
 
 #endif
