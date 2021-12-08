@@ -8,7 +8,7 @@
 
 #include "microblabla.h"
 
-static void	printf_buffer(char *buffer, int	*index)
+static void	printf_buffer(unsigned char *buffer, int	*index)
 {
 	write(1, buffer, *index);
 	ft_memset(&buffer[0], '\0', BUFFER_SIZE);

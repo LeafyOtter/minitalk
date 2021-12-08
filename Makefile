@@ -6,6 +6,7 @@
 #	25/07/21 05:04:02
 #
 
+NAME		= minitalk
 NAME1		= server
 NAME2		= client
 C_FILES1	= server.c \
@@ -23,6 +24,8 @@ IFLAGS		= -I ./includes
 
 .c.o:
 			$(CC) $(CFLAGS) $(IFLAGS) -c $< -o $(<:.c=.o)
+
+$(NAME):	$(NAME1) $(NAME2)
 
 all:        $(NAME1) $(NAME2)
 
